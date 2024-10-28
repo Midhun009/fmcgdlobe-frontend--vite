@@ -1,0 +1,84 @@
+/* Container for the entire progress bar */
+.progress-container {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.progress-bar {
+  display: flex;
+justify-content: space-between;
+  width: 80%;
+  position: relative;
+  flex-direction: row;
+}
+
+/* Container for each step, including the icon and label */
+.step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1; /* Equal width for each step */
+  white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Line connecting each step */
+.line {
+  position: absolute;
+  top: 27%;
+
+  height: 3px;
+  background-color: #ddd;
+  width: calc(100% - 40px);
+  z-index: 1;
+  transform: translateX(-56%);
+}
+
+.line.active {
+  background-color: #00cc66;
+}
+
+/* Circular container for each icon */
+.icon-container {
+  width: 50px;
+  height: 50px;
+  background-color: #ddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #808080;
+  font-size: 20px;
+  z-index: 2;
+}
+
+.icon-container.active {
+  background-color: #00cc66;
+  color: #fff;
+}
+
+/* Icon styling */
+.icon {
+  font-size: 20px;
+}
+
+/* Styling for each step label */
+.step-label {
+  margin-top: 8px;
+  color: #808080;
+  text-align: center;
+  
+}
+
+.step-label.active {
+  color: #00cc66;
+  font-weight: bold;
+}
+
+/* Ensure the progress line fits smoothly between circles */
+.progress-bar .step-container:not(:last-child) .line {
+  width: calc(100% - 40px); /* Adjust the line length to fit between circles */
+  left: 20px; /* Offset to align with circle centers */
+}

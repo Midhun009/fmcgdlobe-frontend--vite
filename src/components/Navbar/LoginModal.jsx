@@ -89,7 +89,7 @@ import React , { useState } from "react";
                 </button>
               </div>
 
-              {/* <div className="form-group text-center mb-0">
+              <div className="form-group text-center mb-0">
                 <p className="extra">Or login with</p>
                 <div className="option-log">
                   <div className="single-log-opt">
@@ -113,7 +113,7 @@ import React , { useState } from "react";
                     </a>
                   </div>
                 </div>
-              </div> */}
+              </div>
             </form>
           </div>
         </div>

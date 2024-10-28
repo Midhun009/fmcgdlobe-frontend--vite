@@ -126,7 +126,7 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="add-listing">
-                <a href="add-listing.html">
+                <a href="/add-listing">
                   <i className="fas fa-plus me-2"></i>Add Listing
                 </a>
               </li>

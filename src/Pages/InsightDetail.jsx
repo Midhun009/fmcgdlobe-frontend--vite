@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 
 const InsightDetail = () => {
   const { id } = useParams(); // Get the ID from the URL parameters
@@ -26,10 +27,21 @@ const InsightDetail = () => {
     // More updates...
   ];
 
+    const breadcrumbItems = [
+      { label: "Home", path: "/", active: false },
+      { label: "Insights", path: "/insights", active: false },
+      {
+        label: "Insights Details",
+        path: "/insights",
+        active: true,
+      },
+    ];
+
   const blogDetail = updates[id]; // Fetch the relevant blog detail
 
   return (
     <>
+      <Breadcrumb items={breadcrumbItems} />
       <section className="page-title gray">
         <div className="container">
           <div className="row">

@@ -8,6 +8,8 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsConditions from "./Pages/TermsConditions";
 import Insights from "./Pages/Insights"; 
 import InsightDetail from "./Pages/InsightDetail"; 
+import ContactPage from "./Pages/ContactPage";
+import AddListing from "./Pages/AddListing";
 
 const RoutesComponent = () => {
   return (
@@ -19,7 +21,10 @@ const RoutesComponent = () => {
       <Route path="/terms-and-conditions" element={<TermsConditions />} />
       <Route path="/insights" element={<Insights />} /> 
       <Route path="/blog/:id" element={<InsightDetail />} />{" "}
-      {/* Blog detail page */}
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/add-listing" element={<AddListing />} />
+
+    
     </Routes>
   );
 };
