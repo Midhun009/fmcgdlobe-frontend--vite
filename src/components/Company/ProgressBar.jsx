@@ -22,7 +22,7 @@ const ProgressBar = ({ currentStep }) => {
         {steps.map((step, index) => (
           <div key={index} className="step-container">
             {/* Only render the line if it's not the last step */}
-            {index > 0 && index < steps.length && (
+            {index > 0 && (
               <div
                 className={`line ${index <= currentStep ? "active" : ""}`}
               ></div>

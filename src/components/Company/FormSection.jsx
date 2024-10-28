@@ -1,117 +1,90 @@
 import React, { useState } from "react";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import "./Company.css";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons"; 
+import Page1 from "./ListingPages/Page1";
+import Page2 from "./ListingPages/Page2";
+import Page3 from "./ListingPages/Page3";
+import Page4 from "./ListingPages/Page4";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import CompanyFooter from "./CompanyFooter";
-import ProgressBar from "./ProgressBar"; 
+import ProgressBar from "./ProgressBar";
+import './Company.css'
 
-const FormSection = ({ currentStep }) => {
-  const [form, setForm] = useState({
-    contactPersonName: "",
-    companyName: "",
-    email: "",
-    mobile: "",
-    companyEmail: "",
-    companyMobile: "",
-  });
+const FormSection = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handlePhoneChange = (phone, name) => {
+    setFormData({ ...formData, [name]: phone });
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFormData({ ...formData, [name]: files[0] });
+  };
+
+  const handleNext = (e) => {
+    e.preventDefault(); 
+    if (currentStep < 3) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   return (
-    <div className="form-section">
+    <form className="form-section" onSubmit={handleNext}>
       <ProgressBar currentStep={currentStep} />
-      <div className="row">
-        {/* Row 1 */}
-        <div className="col-lg-3 col-md-4 col-sm-12">
-          <label>Contact Person Name *</label>
-          <input
-            type="text"
-            name="contactPersonName"
-            placeholder="Contact Person Name "
-            value={form.contactPersonName}
-            onChange={handleChange}
-            required
-          />
-        </div>
 
-        <div className="col-lg-4 col-md-4 col-sm-12">
-          <label>Email *</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email address"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      {currentStep === 0 && (
+        <Page1
+          form={formData}
+          handleChange={handleChange}
+          handlePhoneChange={handlePhoneChange}
+        />
+      )}
 
-        <div className="col-lg-4 col-md-4 col-sm-12">
-          <label>Mobile *</label>
-          <PhoneInput
-            country={"ae"}
-            value={form.mobile}
-            onChange={(mobile) => setForm({ ...form, mobile })}
-            inputStyle={{
-              padding: "0px 45px",
-              width: "100%",
-            }}
-          />
-        </div>
-      </div>
-      <div className="row">
-        {/* Row 2 */}
-        <div className="col-lg-3 col-md-4 col-sm-12">
-          <label>Company Name *</label>
-          <input
-            type="text"
-            name="companyName"
-            placeholder="Company Name "
-            value={form.companyName}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      {currentStep === 1 && (
+        <Page2
+          form={formData}
+          handleChange={handleChange}
+          handlePhoneChange={handlePhoneChange}
+          handleFileChange={handleFileChange}
+        />
+      )}
 
-        <div className="col-lg-4 col-md-4 col-sm-12">
-          <label>Company Email *</label>
-          <input
-            type="email"
-            name="companyEmail"
-            placeholder="Email address"
-            value={form.companyEmail}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      {currentStep === 2 && (
+        <Page3 form={formData} handleChange={handleChange} />
+      )}
 
-        <div className="col-lg-4 col-md-4 col-sm-12">
-          <label>Company Mobile *</label>
-          <PhoneInput
-            country={"ae"}
-            value={form.companyMobile}
-            onChange={(companyMobile) => setForm({ ...form, companyMobile })}
-            inputStyle={{
-              padding: "0px 45px",
-              width: "100%",
-            }}
-            className="phone-input"
-          />
-        </div>
-      </div>
+      {currentStep === 3 && (
+        <Page4 form={formData} handleChange={handleChange} />
+      )}
 
       <div className="button-container">
+        {currentStep > 0 && (
+          <button
+            type="button"
+            className="prev-button next-button" // Apply the same class as the Next button
+            onClick={handlePrevious}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="arrow-icon" />
+            Previous
+          </button>
+        )}{" "}
+        &nbsp;&nbsp;&nbsp;
         <button type="submit" className="next-button">
-          Next <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
+          {currentStep === 3 ? "Submit" : "Next"}{" "}
+          <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
         </button>
       </div>
-
-      {/* <CompanyFooter /> */}
-    </div>
+    </form>
   );
 };
 
