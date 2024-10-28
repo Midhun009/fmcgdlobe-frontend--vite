@@ -1,0 +1,6 @@
+/* Navbar link styling */
+.nav-menu .active {
+  color: #f41b3b; 
+ 
+  text-decoration: none; 
+}

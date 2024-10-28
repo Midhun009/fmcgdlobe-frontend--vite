@@ -1,0 +1,26 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  border: none;
+  width: 40px;
+  border-radius: 4px;
+  background: #333c56; 
+  color: #fff; 
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 999;
+  font-weight: 400;
+  transition: background 0.3s; 
+  display: none; 
+}
+
+.scroll-to-top.visible {
+  display: block; 
+}
+
+/* Hover effect */
+.scroll-to-top:hover {
+  background: #d2d7e4; 
+  color: #333c56;
+}
