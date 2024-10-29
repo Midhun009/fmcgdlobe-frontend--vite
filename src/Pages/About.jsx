@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import AboutSection from "../components/About/AboutSection";
