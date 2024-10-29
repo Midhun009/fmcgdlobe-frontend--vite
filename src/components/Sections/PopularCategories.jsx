@@ -119,7 +119,7 @@ const PopularCategories = () => {
           ))}
         </div>
         <div className="text-center ">
-          <Link to="/view-category">
+          <Link to="/all-categories">
             <Button variant="danger" className="rounded">
               View More
             </Button>

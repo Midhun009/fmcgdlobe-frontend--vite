@@ -1,0 +1,19 @@
+/* components/ProductGallery.css */
+.featured-slick {
+  position: relative;
+  background-size: cover; /* Ensure the background image covers the entire div */
+  background-position: center; /* Center the image */
+  height: 350px; /* Set a fixed height for the gallery */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px; /* Optional padding */
+}
+
+.ftl-diope {
+  /* Additional styles for the button section if needed */
+}
+
+.Goodup-ops-bhri {
+  /* Additional styles for the info section if needed */
+}

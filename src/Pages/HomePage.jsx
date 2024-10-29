@@ -14,6 +14,7 @@ import DownloadApp from "../components/Sections/DownloadApp";
 import Reviews from "../components/Sections/Reviews";
 import FAQ from "../components/Sections/FAQ";
 import SubscribeSection from "../components/Sections/SubscribeSection";
+import AddBox from "../components/AddBox/AddBox";
 
 const metaTags = {
   title: "FMCG Business, News, Events & Top Brands & Companies",
@@ -74,10 +75,12 @@ function HomePage() {
       <Pricing />
       <Partners />
       <HeroSection />
+      <AddBox />
       <LatestNews />
       <TopCities />
       <DownloadApp />
       <Reviews />
+      <AddBox />
       <FAQ />
       <SubscribeSection />
     </>
