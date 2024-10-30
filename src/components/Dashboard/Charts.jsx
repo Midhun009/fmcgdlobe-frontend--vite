@@ -6,7 +6,7 @@ import HighchartsReact from "highcharts-react-official";
 const Charts = () => {
   const options = {
     chart: {
-      type: "column",
+      type: "area", // Change column to area
       backgroundColor: "transparent",
     },
     title: {
@@ -113,7 +113,7 @@ const Charts = () => {
       name: "Sarah Taylor",
       place: "San Francisco",
       profilePic: "https://via.placeholder.com/30",
-    }
+    },
   ];
 
   return (

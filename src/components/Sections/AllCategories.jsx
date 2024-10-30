@@ -301,9 +301,13 @@ const AllCategories = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <h2 className="ft-bold mb-4 text-center">
+              Explore FMCG Categories
+            </h2>
             <div className="sec_title position-relative text-center mb-5">
-              <h6 className="mb-0 theme-cl">All Categories</h6>
-              
+              <h6 className="mb-0 theme-cl">
+                Discover the Best Brands and Products at Your Fingertips
+              </h6>
             </div>
           </div>
         </div>
@@ -334,8 +338,6 @@ const AllCategories = () => {
             </div>
           ))}
         </div>
-
-      
       </div>
     </section>
   );
