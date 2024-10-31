@@ -33,7 +33,7 @@ function App() {
           <Navbar />
           <LoginModal />
           <ScrollToTopButton />
-          <Routes />
+          <Routes /> 
           <Footer />
         </div>
       </Router>
