@@ -79,10 +79,13 @@ const LatestNews = () => {
                         <div className="crs_tutor_thumb">
                           <a href="javascript:void(0);">
                             <img
-                              src="https://via.placeholder.com/500x500"
+                              src={
+                                newsItem.organization?.logo ||
+                                "/path/to/default-logo.png"
+                              }
                               className="img-fluid circle"
                               width="35"
-                              alt="Author"
+                              alt={newsItem.title || "Author logo"}
                             />
                           </a>
                         </div>
