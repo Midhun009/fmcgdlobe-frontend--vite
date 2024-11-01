@@ -1,8 +1,27 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react";
-import Slider from "react-slick"; 
+import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
+import { fetchReviewsData } from "../../Api/reviewsApi"; // Adjust the import based on your file structure
 
 const Reviews = () => {
+  const [reviewsData, setReviewsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getReviewsData = async () => {
+      try {
+        const data = await fetchReviewsData(); // Fetching data from your API
+        setReviewsData(data); // Setting the reviews data
+        setLoading(false); // Updating loading state
+      } catch (error) {
+        setError("Failed to load reviews"); // Error handling
+        setLoading(false);
+      }
+    };
+
+    getReviewsData();
+  }, []);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -13,56 +32,28 @@ const Reviews = () => {
     autoplaySpeed: 3000,
     responsive: [
       {
-        breakpoint: 768, // For mobile screens
+        breakpoint: 768,
         settings: {
-          slidesToShow: 1, // Show 1 slide on screens smaller than 768px
+          slidesToShow: 1,
         },
       },
       {
-        breakpoint: 1024, // For tablets
+        breakpoint: 1024,
         settings: {
-          slidesToShow: 2, // Show 2 slides on screens between 768px and 1024px
+          slidesToShow: 2,
         },
       },
       {
-        breakpoint: 1200, // For larger screens
+        breakpoint: 1200,
         settings: {
-          slidesToShow: 3, // Show 3 slides on screens 1200px and up
+          slidesToShow: 3,
         },
       },
     ],
   };
 
-  const reviewsData = [
-    {
-      name: "Mark Jevenue",
-      title: "CEO of Addle",
-      image: "https://via.placeholder.com/500x500",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua veniam esse cillum.",
-    },
-    {
-      name: "Henna Bajaj",
-      title: "Aqua Founder",
-      image: "https://via.placeholder.com/500x500",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua veniam esse cillum.",
-    },
-    {
-      name: "John Cenna",
-      title: "CEO of Plike",
-      image: "https://via.placeholder.com/500x500",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua velit esse cillum.",
-    },
-    {
-      name: "Madhu Sharma",
-      title: "Team Manager",
-      image: "https://via.placeholder.com/500x500",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboree voluptate velit esse cillum.",
-    },
-  ];
+  if (loading) return <div>Loading...</div>; // Loading state
+  if (error) return <div>{error}</div>; // Error state
 
   return (
     <section className="space">

@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchPricingData } from "../../Api/pricingApi"; // Import your API function
 
 const Pricing = () => {
+  const [pricingData, setPricingData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getPricingData = async () => {
+      try {
+        const data = await fetchPricingData(); // Fetching data from the API
+        setPricingData(data); // Setting the fetched data
+        setLoading(false); // Updating loading state
+      } catch (error) {
+        setError("Failed to load pricing data"); // Error handling
+        setLoading(false);
+      }
+    };
+
+    getPricingData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>; // Loading state
+  if (error) return <div>{error}</div>; // Error state
+
+  // Function to parse the features from the HTML string
+  const parseFeatures = (features) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(features, "text/html");
+    return Array.from(doc.querySelectorAll("p")).map((p) => p.textContent); // Extracting text from <p> elements
+  };
+
   return (
     <section className="space min gray">
       <div className="container">
@@ -14,185 +44,65 @@ const Pricing = () => {
         </div>
 
         <div className="row">
-          {/* Personal Package */}
-          <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-            <div className="Goodup-price-wrap">
-              <div className="Goodup-author-header">
-                <div className="Goodup-price-currency">
-                  <h3>
-                    <span className="Goodup-new-price">
-                      $<del>49</del>
-                    </span>
-                    <span className="Goodup-old-price">
-                      $<del>149</del>
-                    </span>
-                  </h3>
-                </div>
-                <div className="Goodup-price-title">
-                  <div className="Goodup-price-tlt">
-                    <h4>Personal</h4>
+          {pricingData.map((pricingPackage) => (
+            <div
+              key={pricingPackage.id}
+              className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12"
+            >
+              <div className="Goodup-price-wrap">
+                <div className="Goodup-author-header">
+                  <div className="Goodup-price-currency">
+                    <h3>
+                      {/* <span className="Goodup-new-price">
+                        ${pricingPackage.newPrice}
+                      </span> */}
+                      <span className="Goodup-old-price">
+                        <del>${pricingPackage.price}</del>
+                      </span>
+                    </h3>
                   </div>
-                  <div className="Goodup-price-ribbon">
-                    <span className="Goodup-ribbon-offer all">50% Off</span>
+                  <div className="Goodup-price-title">
+                    <div className="Goodup-price-tlt">
+                      <h4>{pricingPackage.name}</h4>
+                    </div>
+                    <div className="Goodup-price-ribbon">
+                      {/* <span className="Goodup-ribbon-offer all">
+                        {pricingPackage.discount}
+                      </span> */}
+                    </div>
                   </div>
+                  {/* <div className="Goodup-price-subtitle">
+                    {pricingPackage.subtitle}
+                  </div> */}
                 </div>
-                <div className="Goodup-price-subtitle">
-                  Best Choice for Individuals
+                <div className="Goodup-price-body">
+                  <ul className="price__features">
+                    {pricingPackage.features ? (
+                      parseFeatures(pricingPackage.features).length > 0 ? (
+                        parseFeatures(pricingPackage.features).map(
+                          (feature, index) => (
+                            <li key={index}>
+                              <i className="fa fa-angle-right"></i>
+                              {feature}
+                            </li>
+                          )
+                        )
+                      ) : (
+                        <li>No features available</li> // Fallback message
+                      )
+                    ) : (
+                      <li>No features available</li> // Fallback message if features is null
+                    )}
+                  </ul>
                 </div>
-              </div>
-              <div className="Goodup-price-body">
-                <ul className="price__features">
-                  <li>
-                    <i className="fa fa-angle-right"></i>Lifetime Bandwidth
-                    Usage
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>6 Months Support &
-                    Updates
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>10 Website License
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Quickstart Included
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Access to Plugins &
-                    Theme
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Branding/Copyright
-                    Removal
-                  </li>
-                </ul>
-              </div>
-              <div className="Goodup-price-bottom">
-                <a className="Goodup-price-btn" href="#">
-                  <i className="fas fa-shopping-basket"></i> Purchase Now
-                </a>
+                <div className="Goodup-price-bottom">
+                  <a className="Goodup-price-btn" href="#">
+                    <i className="fas fa-shopping-basket"></i> Purchase Now
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Platinum Package */}
-          <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-            <div className="Goodup-price-wrap">
-              <div className="Goodup-author-header">
-                <div className="Goodup-price-currency">
-                  <h3>
-                    <span className="Goodup-new-price theme-cl">
-                      $<del>129</del>
-                    </span>
-                    <span className="Goodup-old-price">
-                      $<del>199</del>
-                    </span>
-                  </h3>
-                </div>
-                <div className="Goodup-price-title">
-                  <div className="Goodup-price-tlt">
-                    <h4>Platinum</h4>
-                  </div>
-                  <div className="Goodup-price-ribbon">
-                    <span className="Goodup-ribbon-offer">50% Off</span>
-                  </div>
-                </div>
-                <div className="Goodup-price-subtitle">
-                  Best Choice for Individuals
-                </div>
-              </div>
-              <div className="Goodup-price-body">
-                <ul className="price__features">
-                  <li>
-                    <i className="fa fa-angle-right"></i>Lifetime Bandwidth
-                    Usage
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>12 Months Support &
-                    Updates
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>20 Website License
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Quickstart Included
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Access to Plugins &
-                    Theme
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Branding/Copyright
-                    Removal
-                  </li>
-                </ul>
-              </div>
-              <div className="Goodup-price-bottom">
-                <a className="Goodup-price-btn active" href="#">
-                  <i className="fas fa-shopping-basket"></i> Purchase Now
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Standard Package */}
-          <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-            <div className="Goodup-price-wrap">
-              <div className="Goodup-author-header">
-                <div className="Goodup-price-currency">
-                  <h3>
-                    <span className="Goodup-new-price">
-                      $<del>149</del>
-                    </span>
-                    <span className="Goodup-old-price">
-                      $<del>249</del>
-                    </span>
-                  </h3>
-                </div>
-                <div className="Goodup-price-title">
-                  <div className="Goodup-price-tlt">
-                    <h4>Standard</h4>
-                  </div>
-                  <div className="Goodup-price-ribbon">
-                    <span className="Goodup-ribbon-offer all">50% Off</span>
-                  </div>
-                </div>
-                <div className="Goodup-price-subtitle">
-                  Best Choice for Individuals
-                </div>
-              </div>
-              <div className="Goodup-price-body">
-                <ul className="price__features">
-                  <li>
-                    <i className="fa fa-angle-right"></i>Lifetime Bandwidth
-                    Usage
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Lifetime Support &
-                    Updates
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>50 Website License
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Quickstart Included
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Access to Plugins &
-                    Theme
-                  </li>
-                  <li>
-                    <i className="fa fa-angle-right"></i>Branding/Copyright
-                    Removal
-                  </li>
-                </ul>
-              </div>
-              <div className="Goodup-price-bottom">
-                <a className="Goodup-price-btn" href="#">
-                  <i className="fas fa-shopping-basket"></i> Purchase Now
-                </a>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
