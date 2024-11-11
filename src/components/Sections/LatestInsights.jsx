@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchLatestNewsData } from "../../Api/newsApi"; // Adjust the import based on your file structure
+import { fetchUpdatesData } from "../../Api/insightsApi"; 
+import { Link } from "react-router-dom";
 
-const LatestNews = () => {
+const LatestInsights = () => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,11 +10,11 @@ const LatestNews = () => {
   useEffect(() => {
     const getNewsData = async () => {
       try {
-        const data = await fetchLatestNewsData(); // Fetching data from your API
-        setNewsData(data); // Setting the news data
+        const data = await fetchUpdatesData(); // Fetching data from your API
+        setNewsData(data); // Setting the insights data
         setLoading(false); // Updating loading state
       } catch (error) {
-        setError("Failed to load news articles"); // Error handling
+        setError("Failed to load insights"); // Error handling
         setLoading(false);
       }
     };
@@ -25,9 +26,11 @@ const LatestNews = () => {
   if (error) return <div>{error}</div>; // Error state
 
   // Function to strip HTML tags from a string
-  const stripHtmlTags = (html) => {
-    return html.replace(/<[^>]*>/g, ""); // Replace all HTML tags with an empty string
-  };
+const stripHtmlTags = (html, maxLength = 100) => {
+  const text = html.replace(/<[^>]*>/g, ""); // Remove HTML tags
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
 
   return (
     <section className="space min">
@@ -35,41 +38,41 @@ const LatestNews = () => {
         <div className="row justify-content-center">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div className="sec_title position-relative text-center mb-4">
-              <h6 className="theme-cl mb-0">Latest News</h6>
-              <h2 className="ft-bold">Pickup New Updates</h2>
+              <h6 className="theme-cl mb-0">Latest Insights</h6>
+              <h2 className="ft-bold">Discover New Updates</h2>
             </div>
           </div>
         </div>
 
         <div className="row justify-content-center">
-          {newsData.map((newsItem, index) => (
+          {newsData.slice(0, 3).map((insight, index) => (
             <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12" key={index}>
-              <div className="gup_blg_grid_box">
-                <div className="gup_blg_grid_thumb">
-                  <a href={`blog-detail.html?id=${newsItem.id}`}>
+              <div className="gup_insight_grid_box">
+                <div className="gup_insight_grid_thumb">
+                  <a href={`/insights/${insight.slug}`}>
                     <img
                       src={
-                        newsItem.image || "https://via.placeholder.com/700x350"
+                        insight.image || "https://via.placeholder.com/700x350"
                       }
                       className="img-fluid"
-                      alt={newsItem.title}
+                      style={{ height: "50%", width: "60%" }}
+                      alt={insight.title}
                     />
                   </a>
                 </div>
-                <div className="gup_blg_grid_caption">
-                  <div className="blg_tag">
-                    <span>{newsItem.category || "General"}</span>
+                <div className="gup_insight_grid_caption">
+                  <div className="insight_tag">
+                    <span>{insight.category || "General"}</span>
                   </div>
-                  <div className="blg_title">
+                  <div className="insight_title">
                     <h4>
-                      <a href={`blog-detail.html?id=${newsItem.id}`}>
-                        {newsItem.title}
-                      </a>
+                      <Link to={`/insights/${insight.slug}`}>
+                        {insight.title}
+                      </Link>
                     </h4>
                   </div>
-                  <div className="blg_desc">
-                    <p>{stripHtmlTags(newsItem.description)}</p>{" "}
-                    {/* Stripping HTML tags */}
+                  <div className="insight_desc">
+                    <p>{stripHtmlTags(insight.description, 200)}</p>
                   </div>
                 </div>
                 <div className="crs_grid_foot">
@@ -80,12 +83,12 @@ const LatestNews = () => {
                           <a href="javascript:void(0);">
                             <img
                               src={
-                                newsItem.organization?.logo ||
+                                insight.organization?.logo ||
                                 "/path/to/default-logo.png"
                               }
                               className="img-fluid circle"
                               width="35"
-                              alt={newsItem.title || "Author logo"}
+                              alt={insight.title || "Author logo"}
                             />
                           </a>
                         </div>
@@ -99,7 +102,7 @@ const LatestNews = () => {
                               <i className="fa fa-eye text-success"></i>
                             </div>
                             <div className="elsio_tx">
-                              {newsItem.views || "0"} Views
+                              {insight.views || "0"} Views
                             </div>
                           </li>
                           <li>
@@ -107,7 +110,7 @@ const LatestNews = () => {
                               <i className="fa fa-clock text-warning"></i>
                             </div>
                             <div className="elsio_tx">
-                              {newsItem.date || "N/A"}
+                              {insight.date || "N/A"}
                             </div>
                           </li>
                         </ul>
@@ -124,4 +127,4 @@ const LatestNews = () => {
   );
 };
 
-export default LatestNews;
+export default LatestInsights;

@@ -8,7 +8,7 @@ import Working from "../components/Sections/Working";
 import Pricing from "../components/Sections/Pricing";
 import Partners from "../components/Sections/Partners";
 import HeroSection from "../components/Sections/HeroSection";
-import LatestNews from "../components/Sections/LatestNews";
+import LatestNews from "../components/Sections/LatestInsights";
 import TopCities from "../components/Sections/TopCities";
 import DownloadApp from "../components/Sections/DownloadApp";
 import Reviews from "../components/Sections/Reviews";

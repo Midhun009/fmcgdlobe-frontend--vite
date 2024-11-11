@@ -4,7 +4,7 @@ import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import AboutSection from "../components/About/AboutSection";
 import TeamSection from "../components/About/TeamSection";
 import WorkingProcessSection from "../components/About/WorkingProcessSection";
-import LatestNews from "../components/Sections/LatestNews";
+import LatestInsights from "../components/Sections/LatestInsights";
 import SubscribeSection from "../components/Sections/SubscribeSection";
 
 const AboutBreadcrbms = () => {
@@ -19,7 +19,7 @@ const AboutBreadcrbms = () => {
       <AboutSection />
       <WorkingProcessSection />
       <TeamSection />
-      <LatestNews />
+      <LatestInsights />
       <SubscribeSection />
     </>
   );

@@ -1,43 +1,37 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
+import { fetchUpdatesData } from "../../Api/insightsApi"; // Import your API function
 
 const InsightComponent = () => {
-  const updates = [
-    {
-      title: "What Is a VPN and How Does It Work?",
-      description:
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum",
-      date: "10 July 2021",
-      views: "10k Views",
-      image: "https://via.placeholder.com/700x350",
-      status: "Open",
-      isFeatured: true,
-    },
-    {
-      title: "Understanding Cloud Computing",
-      description:
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum",
-      date: "10 July 2021",
-      views: "10k Views",
-      image: "https://via.placeholder.com/700x350",
-      status: "Open",
-      isFeatured: false,
-    },
-    {
-      title: "What Is a VPN and How Does It Work?",
-      description:
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum",
-      date: "10 July 2021",
-      views: "10k Views",
-      image: "https://via.placeholder.com/700x350",
-      status: "Open",
-      isFeatured: false,
-    },
+  const [updates, setUpdates] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    // Add more updates as needed
-  ];
+  useEffect(() => {
+    const getUpdates = async () => {
+      try {
+        const data = await fetchUpdatesData(); // Fetch data from API
+        setUpdates(data);
+      } catch (err) {
+        setError("Failed to load updates");
+      } finally {
+        setLoading(false);
+      }
+    };
+    getUpdates();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  // Function to strip HTML tags from a string
+const stripHtmlTags = (html, maxLength = 100) => {
+  const text = html.replace(/<[^>]*>/g, ""); // Remove HTML tags
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
+
 
   return (
     <section className="gray py-5">
@@ -71,9 +65,11 @@ const InsightComponent = () => {
                       </div>
                       <div className="Goodup-pos ab-left">
                         <div
-                          className={`Goodup-status ${update.status.toLowerCase()} me-2`}
+                          className={`Goodup-status ${
+                            update.status?.toLowerCase() || ""
+                          } me-2`}
                         >
-                          {update.status}
+                          {update.status || "N/A"}
                         </div>
                         {update.isFeatured && (
                           <div className="Goodup-featured-tag">Featured</div>
@@ -81,29 +77,39 @@ const InsightComponent = () => {
                       </div>
                       <div className="Goodup-grid-thumb">
                         <Link
-                          to={`/blog/${index}`} // This links to the detail page for the specific update
+                          to={`/blog/${update.id}`}
                           className="d-block text-center m-auto"
                         >
                           <img
-                            src={update.image}
+                            src={
+                              update.image ||
+                              "https://via.placeholder.com/700x350"
+                            }
                             className="img-fluid"
-                            alt={update.title} // Ensure alt text is meaningful for accessibility
+                            alt={update.title || "Update"}
                           />
                         </Link>
                       </div>
                     </div>
                     <div className="Goodup-grid-fl-wrap">
                       <div className="Goodup-caption px-3 py-2">
-                        <div className="Goodup-cates">
-                          <a href="search.html">Sports</a>
+                        <div
+                          className="Goodup-cates"
+                          style={{ color: "#F41b3b" }}
+                        >
+                          {update.category || "General"}
                         </div>
                         <div className="blg_title">
                           <h4>
-                            <Link to={`/blog/${index}`}>{update.title}</Link>
+                            <Link to={`/insights/${update.slug}`}>
+                              {update.title}
+                            </Link>
                           </h4>
                         </div>
                         <div className="blg_desc">
-                          <p>{update.description}</p>
+                          {stripHtmlTags(update.description) ? (
+                            <p>{stripHtmlTags(update.description)}</p>
+                          ) : null}
                         </div>
                       </div>
                       <div className="crs_grid_foot">
@@ -111,14 +117,15 @@ const InsightComponent = () => {
                           <div className="crs_fl_first">
                             <div className="crs_tutor">
                               <div className="crs_tutor_thumb">
-                                <a href="javascript:void(0);">
-                                  <img
-                                    src="https://via.placeholder.com/500x500"
-                                    className="img-fluid circle"
-                                    width="35"
-                                    alt=""
-                                  />
-                                </a>
+                                <img
+                                  src={
+                                    update.organization?.logo ||
+                                    "/path/to/default-logo.png"
+                                  }
+                                  className="img-fluid circle"
+                                  width="35"
+                                  alt=""
+                                />
                               </div>
                             </div>
                           </div>
@@ -129,13 +136,17 @@ const InsightComponent = () => {
                                   <div className="elsio_ic">
                                     <i className="fa fa-eye text-success"></i>
                                   </div>
-                                  <div className="elsio_tx">{update.views}</div>
+                                  <div className="elsio_tx">
+                                    {update.views || "0"} Views
+                                  </div>
                                 </li>
                                 <li>
                                   <div className="elsio_ic">
                                     <i className="fa fa-clock text-warning"></i>
                                   </div>
-                                  <div className="elsio_tx">{update.date}</div>
+                                  <div className="elsio_tx">
+                                    {update.date || "N/A"}
+                                  </div>
                                 </li>
                               </ul>
                             </div>
