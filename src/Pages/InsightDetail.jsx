@@ -1,19 +1,23 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
-import { fetchInsightBySlug } from "../Api/insightDetailApi"; // Import your API function
+import { fetchInsightBySlug } from "../Api/insightDetailApi";
+import SubscribeSection from "../components/Sections/SubscribeSection";
 
 const InsightDetail = () => {
-  const { slug } = useParams(); // Capture the slug from URL parameters
+  const { slug } = useParams(); 
   const [blogDetail, setBlogDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+const stripHtmlTags = (str) => {
+  const doc = new DOMParser().parseFromString(str, "text/html");
+  return doc.body.textContent || "";
+};
+  
   useEffect(() => {
     const getInsightDetail = async () => {
       try {
-        const data = await fetchInsightBySlug(slug); // Fetch insight data based on slug
+        const data = await fetchInsightBySlug(slug); 
         setBlogDetail(data);
       } catch (err) {
         setError("Failed to load insight details");
@@ -45,6 +49,7 @@ const InsightDetail = () => {
             <div className="col-lg-8 col-md-12 col-sm-12 col-12">
               <div className="article_detail_wrapss single_article_wrap format-standard">
                 <div className="article_body_wrap">
+                  {/* Featured Image */}
                   <div className="article_featured_image">
                     <img
                       className="img-fluid"
@@ -52,55 +57,127 @@ const InsightDetail = () => {
                         blogDetail.image ||
                         "https://via.placeholder.com/700x350"
                       }
+                      style={{
+                        width: "700px",
+                        height: "350px",
+                        objectFit: "cover",
+                      }}
                       alt="Featured"
                     />
                   </div>
 
-                  <h2 className="post-title">{blogDetail.title}</h2>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: blogDetail.description }}
-                  />
+                  {/* Article Info */}
+                  <div className="article_top_info">
+                    <ul className="article_middle_info">
+                      <li>
+                        <a href="#">
+                          <span className="icons">
+                            <i className="ti-user"></i>
+                          </span>
+                          by{" "}
+                          {blogDetail.organization?.company_name ||
+                            "Author Name"}
+                        </a>
+                      </li>
+                      {/* <li>
+                        <a href="#">
+                          <span className="icons">
+                            <i className="ti-comment-alt"></i>
+                          </span>
+                          {blogDetail.comments_count} Comments
+                        </a>
+                      </li> */}
+                    </ul>
+                  </div>
 
-                  {/* Organization Details */}
-                  <div className="organization-details">
-                    <h3>Organization Details</h3>
+                  {/* Post Title */}
+                  <h2 className="post-title">{blogDetail.title}</h2>
+
+                  {/* Post Content */}
+                  <p>{stripHtmlTags(blogDetail.description)}</p>
+                  {/* Blockquote */}
+                  <blockquote>
+                    <span className="icon">
+                      <i className="fas fa-quote-left"></i>
+                    </span>
+
+                    <h5 className="name mt-3">
+                      - {blogDetail.organization?.company_name || "Author Name"}
+                    </h5>
+                  </blockquote>
+                </div>
+              </div>
+
+              {/* Author Detail */}
+              <div className="article_detail_wrapss single_article_wrap format-standard">
+                <div className="article_posts_thumb">
+                  <span className="img">
                     <img
-                      src={blogDetail.organization.logo}
-                      alt={`${blogDetail.organization.company_name} Logo`}
-                      style={{ maxWidth: "100px" }} // Set a max width for logo
+                      className="img-fluid"
+                      src={
+                        blogDetail.organization?.logo ||
+                        "https://via.placeholder.com/500x500"
+                      }
+                      style={{ height: "100px", width: "100px" }}
+                      alt="Author"
                     />
-                    <p>
-                      <strong>Name:</strong>{" "}
-                      {blogDetail.organization.company_name}
-                    </p>
-                    <p>
-                      <strong>Email:</strong>{" "}
-                      {blogDetail.organization.company_email}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong>{" "}
-                      {blogDetail.organization.company_mobile}
-                    </p>
-                    <p>
-                      <strong>Address:</strong>{" "}
-                      {blogDetail.organization.address},{" "}
-                      {blogDetail.organization.city}
-                    </p>
-                    <p>
-                      <strong>Description:</strong>{" "}
-                      {blogDetail.organization.company_description}
-                    </p>
-                    <p>
-                      <strong>Website:</strong>{" "}
+                  </span>
+                  <h3 className="pa-name">
+                    {blogDetail.organization?.company_name || "Author Name"}
+                  </h3>
+                  <ul className="social-links">
+                    <li>
                       <a
-                        href={blogDetail.organization.website}
+                        href={blogDetail.organization?.facebook || "#"}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {blogDetail.organization.website}
+                        <i className="fab fa-facebook-f"></i>
                       </a>
-                    </p>
-                  </div>
+                    </li>
+
+                    <li>
+                      <a
+                        href={blogDetail.organization?.twitter || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="fab fa-twitter"></i>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        href={blogDetail.organization?.behance || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="fab fa-behance"></i>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        href={blogDetail.organization?.youtube || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="fab fa-youtube"></i>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a
+                        href={blogDetail.organization?.linkedin || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="fab fa-linkedin-in"></i>
+                      </a>
+                    </li>
+                  </ul>
+
+                  <p className="pa-text">{blogDetail.author_bio}</p>
                 </div>
               </div>
             </div>
@@ -138,6 +215,7 @@ const InsightDetail = () => {
                   </li>
                 </ul>
               </div>
+
               {/* Trending Posts */}
               <div className="single_widgets widget_thumb_post">
                 <h4 className="title">Trending Posts</h4>
@@ -146,7 +224,7 @@ const InsightDetail = () => {
                     <span className="left">
                       <img
                         src="https://via.placeholder.com/700x350"
-                        alt="Trending Post"
+                        alt="Post Thumbnail"
                       />
                     </span>
                     <span className="right">
@@ -186,6 +264,8 @@ const InsightDetail = () => {
           </div>
         </div>
       </section>
+
+      <SubscribeSection />
     </>
   );
 };

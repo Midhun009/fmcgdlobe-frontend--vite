@@ -27,9 +27,14 @@ const LatestInsights = () => {
 
   // Function to strip HTML tags from a string
 const stripHtmlTags = (html, maxLength = 100) => {
-  const text = html.replace(/<[^>]*>/g, ""); // Remove HTML tags
+  // Use DOMParser to strip HTML tags
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const text = doc.body.textContent || "";
+
+  // Apply maxLength and return truncated text if necessary
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };
+
 
 
   return (
@@ -55,7 +60,7 @@ const stripHtmlTags = (html, maxLength = 100) => {
                         insight.image || "https://via.placeholder.com/700x350"
                       }
                       className="img-fluid"
-                      style={{ height: "50%", width: "60%" }}
+                      style={{ height: "300px", width: "600px" }}
                       alt={insight.title}
                     />
                   </a>

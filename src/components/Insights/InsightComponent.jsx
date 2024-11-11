@@ -84,7 +84,7 @@ const stripHtmlTags = (html, maxLength = 100) => {
                             src={
                               update.image ||
                               "https://via.placeholder.com/700x350"
-                            }
+                            } 
                             className="img-fluid"
                             alt={update.title || "Update"}
                           />
