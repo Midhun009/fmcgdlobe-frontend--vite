@@ -60,7 +60,7 @@ const stripHtmlTags = (html, maxLength = 100) => {
                         insight.image || "https://via.placeholder.com/700x350"
                       }
                       className="img-fluid"
-                      style={{ height: "300px", width: "600px" }}
+                      style={{ height: "250px", width: "400px" }}
                       alt={insight.title}
                     />
                   </a>

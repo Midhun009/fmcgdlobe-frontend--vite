@@ -28,7 +28,7 @@ const RoutesComponent = () => {
       <Route path="/insights/:slug" element={<InsightDetail />} />{" "}
       {/* Updated line */}
       <Route path="/products" element={<Products />} />
-      <Route path="/product-detail" element={<ProductDetail />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/add-listing" element={<AddListing />} />
       <Route path="/dashboard" element={<Dashboard />} />
