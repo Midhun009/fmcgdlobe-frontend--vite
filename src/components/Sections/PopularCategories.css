@@ -1,0 +1,11 @@
+.view-more-btn {
+  padding: 10px 20px;
+  background-color: #f41b3b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 10%;
+  transition: background-color 0.3s ease;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import PhoneInput from "react-phone-input-2";
 import Select from "react-select"; // Import react-select
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector"; // Import country and region selector
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Page2 = ({ form, handleChange, handleFileChange }) => {
 
@@ -57,23 +58,8 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
         />
       </div>
 
-      <div className="col-lg-3 col-md-6 col-sm-12">
-        <label>Logo Upload</label>
-        <input type="file" name="logo" onChange={handleFileChange} />
-      </div>
-
-      <div className="col-lg-4 col-md-6 col-sm-12">
-        <label>Banner Upload</label>
-        <input type="file" name="banner" onChange={handleFileChange} />
-      </div>
-
-      <div className="col-lg-4 col-md-6 col-sm-12">
-        <label>Brochure Upload</label>
-        <input type="file" name="brochure" onChange={handleFileChange} />
-      </div>
-
       {/* Address Fields */}
-      <div className="col-lg-3 col-md-6 col-sm-12">
+      <div className="col-lg-4 col-md-6 col-sm-12">
         <label>Address</label>
         <input
           type="text"
@@ -95,7 +81,7 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
         />
       </div>
 
-      <div className="col-lg-4 col-md-6 col-sm-12">
+      <div className="col-lg-3 col-md-6 col-sm-12" style={{ width: "30%" }}>
         <label>Street</label>
         <input
           type="text"
@@ -117,7 +103,7 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
         />
       </div>
 
-      <div className="col-lg-3 col-md-6 col-sm-12">
+      <div className="col-lg-4 col-md-6 col-sm-12">
         <label>P.O. Box</label>
         <input
           type="text"
@@ -128,7 +114,7 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
         />
       </div>
 
-      <div className="col-lg-4 col-md-6 col-sm-12">
+      <div className="col-lg-3 col-md-6 col-sm-12">
         <label>City</label>
         <input
           type="text"
@@ -161,7 +147,6 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
           style={dropdownStyles} // Apply styles here
         />
       </div>
-
       <div className="col-lg-3 col-md-6 col-sm-12">
         <label>ISO</label>
         <select
@@ -175,9 +160,38 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
           <option value="iso1">ISO 1</option>
           <option value="iso2">ISO 2</option>
         </select>
-          </div>
-          
+      </div>
+
       <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Supplier</label>
+        <select
+          name="supplier"
+          value={form.supplier || ""}
+          onChange={handleChange}
+          style={dropdownStyles}
+        >
+          <option value="">Select Option</option>
+          {/* Replace with dynamic ISO options from your database */}
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Distributer</label>
+        <select
+          name="distributer"
+          value={form.distributer || ""}
+          onChange={handleChange}
+          style={dropdownStyles}
+        >
+          <option value="">Select Option</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div className="col-lg-3 col-md-6 col-sm-12">
         <label>Website</label>
         <input
           type="url"
@@ -189,6 +203,59 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       </div>
 
       <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Facebook</label>
+        <input
+          type="url"
+          name="facebookUrl"
+          placeholder="Facebook URL"
+          value={form.facebook || ""}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Twitter </label>
+        <input
+          type="url"
+          name="twitterUrl"
+          placeholder="Twitter URL"
+          value={form.twitter || ""}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="col-lg-3 col-md-6 col-sm-12">
+        <label>Linkedin</label>
+        <input
+          type="url"
+          name="linkedinUrl"
+          placeholder="Linkedin URL"
+          value={form.linkedin || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Instagram</label>
+        <input
+          type="url"
+          name="instagramUrl"
+          placeholder="Instagram URL"
+          value={form.instagram || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>YouTube</label>
+        <input
+          type="url"
+          name="youtubeUrl"
+          placeholder="YouTube URL"
+          value={form.youtube || ""}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="col-lg-3 col-md-6 col-sm-12" >
         <label>Google Map URL</label>
         <input
           type="url"
@@ -197,6 +264,22 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
           value={form.googleMapUrl || ""}
           onChange={handleChange}
         />
+      </div>
+      
+
+      <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Logo Upload</label>
+        <input type="file" name="logo" onChange={handleFileChange} />
+      </div>
+
+      <div className="col-lg-4 col-md-6 col-sm-12">
+        <label>Banner Upload</label>
+        <input type="file" name="banner" onChange={handleFileChange} />
+      </div>
+
+      <div className="col-lg-3 col-md-6 col-sm-12">
+        <label>Brochure Upload</label>
+        <input type="file" name="brochure" onChange={handleFileChange} />
       </div>
     </div>
   );

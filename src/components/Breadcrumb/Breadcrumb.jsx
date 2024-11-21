@@ -1,7 +1,6 @@
 // Breadcrumb.js
 import React from "react";
-import { Link } from "react-router-dom"; // Use Link for internal routing if you're using react-router
-
+import { Link } from "react-router-dom"; 
 const Breadcrumb = ({ items }) => {
   return (
     <div className="bg-dark py-3">

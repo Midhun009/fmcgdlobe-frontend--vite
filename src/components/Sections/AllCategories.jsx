@@ -293,7 +293,6 @@ const AllCategories = () => {
       title: "Education Services",
       listings: 49,
     },
-
   ];
 
   return (

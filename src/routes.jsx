@@ -13,7 +13,9 @@ import Products from "./Pages/Products";
 import ProductDetail from "./Pages/ProductDetail";
 import ContactPage from "./Pages/ContactPage";
 import AddListing from "./Pages/AddListing";
+import Pricing from "./components/Sections/Pricing";
 import Dashboard from "./Pages/Dashboard";
+import ListingCategory from "./Pages/ListingCategory";
 
 const RoutesComponent = () => {
   return (
@@ -30,8 +32,10 @@ const RoutesComponent = () => {
       <Route path="/products" element={<Products />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/contact" element={<ContactPage />} />
-      <Route path="/add-listing" element={<AddListing />} />
+      <Route path="/add-listing" element={<Pricing />} />
+      <Route path="/add-listing/:packageId" element={<AddListing />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/listing" element={<ListingCategory />} />
     </Routes>
   );
 };

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from "react"; // Import hooks
+import React, { useState, useEffect } from "react"; 
 import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import "./App.css";
@@ -10,7 +10,7 @@ import Footer from "./components/Footer/Footer";
 import Routes from "./routes";
 import ScrollToTopButton from "./components/Button/ScrollToTopButton";
 import ScrollToTop from "./components/ScrollToTop";
-import Preloader from "./components/Preloader"; // Import the Preloader component
+import Preloader from "./components/Preloader"; 
 
 function App() {
   const [loading, setLoading] = useState(true);

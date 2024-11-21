@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { fetchPricingData } from "../../Api/pricingApi"; // Import your API function
 
 const Pricing = () => {
   const [pricingData, setPricingData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     const getPricingData = async () => {
@@ -29,6 +31,11 @@ const Pricing = () => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(features, "text/html");
     return Array.from(doc.querySelectorAll("p")).map((p) => p.textContent); // Extracting text from <p> elements
+  };
+
+  // Handle package selection and navigate to Add Listing
+  const handlePurchase = (packageId) => {
+    navigate(`/add-listing/${packageId}`); // Redirect to Add Listing with selected package ID
   };
 
   return (
@@ -71,9 +78,6 @@ const Pricing = () => {
                       </span> */}
                     </div>
                   </div>
-                  {/* <div className="Goodup-price-subtitle">
-                    {pricingPackage.subtitle}
-                  </div> */}
                 </div>
                 <div className="Goodup-price-body">
                   <ul className="price__features">
@@ -96,9 +100,12 @@ const Pricing = () => {
                   </ul>
                 </div>
                 <div className="Goodup-price-bottom">
-                  <a className="Goodup-price-btn" href="#">
+                  <button
+                    className="Goodup-price-btn"
+                    onClick={() => handlePurchase(pricingPackage.id)} // On click, navigate to Add Listing with package ID
+                  >
                     <i className="fas fa-shopping-basket"></i> Purchase Now
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

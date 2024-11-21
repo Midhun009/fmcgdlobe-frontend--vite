@@ -1,0 +1,109 @@
+
+.Goodup-status {
+  color: #fff;
+  background-color: #28a745;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.Goodup-featured-tag {
+  color: #fff;
+  background-color: #F41b3b ;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+}
+
+.Goodup-whatsapp {
+  color: #25D366;
+}
+
+.Goodup-whatsapp a {
+  color: #25D366;
+  text-decoration: none;
+}
+
+/* Social Media Icons */
+.Goodup-bookmark-btn i {
+  color: #007bff;
+}
+
+.Goodup-bookmark-btn i.fas.fa-globe {
+  color: #007bff;
+}
+
+.Goodup-bookmark-btn i.fas.fa-phone-alt {
+  color: #28a745;
+}
+
+.Goodup-bookmark-btn i.fab.fa-facebook-f {
+  color: #1877F2;
+}
+
+.Goodup-bookmark-btn i.fab.fa-twitter {
+  color: #1DA1F2;
+}
+
+.Goodup-bookmark-btn i.fab.fa-instagram {
+  color: #C13584;
+}
+
+/* Dropdown Card */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+}
+
+.panel-title a {
+  font-size: 16px;
+  margin-left: 10px;
+  color: #F41b3b;
+  text-decoration: none;
+}
+
+.toggleIcon a {
+  font-size: 18px;
+  color: #F41b3b;
+  text-decoration: none;
+}
+
+.card-body a {
+  color: #000;
+  font-weight: 500;
+}
+
+.card-body .badge {
+  color: #000;
+  font-weight: 500;
+  font-size: 14px;
+}
+/* Style for the badges */
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 12px; /* Soft corners */
+  border: 1px solid #ddd; /* Soft border */
+  text-decoration: none;
+  color: #000;
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
+/* Hover effect */
+.badge:hover {
+  background-color: #f1f1f1; /* Light background on hover */
+  color: #007bff; /* Change text color */
+  border-color: #007bff; /* Change border color */
+}
+
+/* Additional hover effect for badges with .badge-hover class */
+.badge-hover:hover {
+  background-color: #f1f1f1; /* Change background to yellow on hover */
+  color: #007bff;
+  border-color: #007bff; /* Change border color */
+}
