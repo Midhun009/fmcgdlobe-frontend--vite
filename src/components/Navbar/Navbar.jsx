@@ -9,6 +9,9 @@ const Navbar = ({ isLoggedIn, userProfile, handleLogout }) => {
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+  const handleMenuItemClick = () => {
+    setDropdownOpen(false); // Close dropdown on menu item click
+  };
 
   return (
     <header className="header header-light dark-text">
@@ -111,19 +114,22 @@ const Navbar = ({ isLoggedIn, userProfile, handleLogout }) => {
                   </div>
 
                   {dropdownOpen && (
-                    <ul className="profile-dropdown" style={{ padding:"10px" }}>
+                    <ul
+                      className="profile-dropdown"
+                      style={{ padding: "10px" }}
+                    >
                       <li>
-                        <NavLink to="/profile">
+                        <NavLink to="/dashboard" onClick={handleMenuItemClick}>
                           <i className="fas fa-user-circle me-2"></i> Profile
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/settings">
+                        <NavLink to="/settings" onClick={handleMenuItemClick}>
                           <i className="fas fa-cog me-2"></i> Settings
                         </NavLink>
                       </li>
                       <li>
-                        <a href="#" onClick={handleLogout}>
+                        <a href="#" onClick={handleLogout} >
                           <i className="fas fa-sign-out-alt me-2"></i> Logout
                         </a>
                       </li>
