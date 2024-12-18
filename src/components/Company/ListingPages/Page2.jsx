@@ -194,7 +194,7 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       <div className="col-lg-3 col-md-6 col-sm-12">
         <label>Website</label>
         <input
-          type="url"
+          type="text"
           name="website"
           placeholder="Website"
           value={form.website || ""}
@@ -205,8 +205,8 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       <div className="col-lg-4 col-md-6 col-sm-12">
         <label>Facebook</label>
         <input
-          type="url"
-          name="facebookUrl"
+          type="text"
+          name="facebook"
           placeholder="Facebook URL"
           value={form.facebook || ""}
           onChange={handleChange}
@@ -216,8 +216,8 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       <div className="col-lg-4 col-md-6 col-sm-12">
         <label>Twitter </label>
         <input
-          type="url"
-          name="twitterUrl"
+          type="text"
+          name="twitter"
           placeholder="Twitter URL"
           value={form.twitter || ""}
           onChange={handleChange}
@@ -227,8 +227,8 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       <div className="col-lg-3 col-md-6 col-sm-12">
         <label>Linkedin</label>
         <input
-          type="url"
-          name="linkedinUrl"
+          type="text"
+          name="linkedin"
           placeholder="Linkedin URL"
           value={form.linkedin || ""}
           onChange={handleChange}
@@ -237,8 +237,8 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       <div className="col-lg-4 col-md-6 col-sm-12">
         <label>Instagram</label>
         <input
-          type="url"
-          name="instagramUrl"
+          type="text"
+          name="instagram"
           placeholder="Instagram URL"
           value={form.instagram || ""}
           onChange={handleChange}
@@ -247,25 +247,24 @@ const Page2 = ({ form, handleChange, handleFileChange }) => {
       <div className="col-lg-4 col-md-6 col-sm-12">
         <label>YouTube</label>
         <input
-          type="url"
-          name="youtubeUrl"
+          type="text"
+          name="youtube"
           placeholder="YouTube URL"
           value={form.youtube || ""}
           onChange={handleChange}
         />
       </div>
 
-      <div className="col-lg-3 col-md-6 col-sm-12" >
+      <div className="col-lg-3 col-md-6 col-sm-12">
         <label>Google Map URL</label>
         <input
-          type="url"
+          type="text"
           name="googleMapUrl"
           placeholder="Google Map URL"
           value={form.googleMapUrl || ""}
           onChange={handleChange}
         />
       </div>
-      
 
       <div className="col-lg-4 col-md-6 col-sm-12">
         <label>Logo Upload</label>
