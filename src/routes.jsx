@@ -35,7 +35,7 @@ const RoutesComponent = () => {
       <Route path="/add-listing" element={<Pricing />} />
       <Route path="/add-listing/:packageId" element={<AddListing />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/listing" element={<ListingCategory />} />
+      <Route path="/category/:slug" element={<ListingCategory />} />
     </Routes>
   );
 };

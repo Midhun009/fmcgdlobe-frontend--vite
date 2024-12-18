@@ -1,43 +1,41 @@
-import React from "react";
-import "./ItemCard.css";
+import React, { useState, useEffect } from "react";
+import { fetchItemDetails } from "../../Api/categoryApi"; // Importing the API logic
 
-const dummyData = {
-  items: [
-    {
-      id: 1,
-      imageUrl: "https://via.placeholder.com/700x350",
-      title: "Pretty Woman Smart Batra",
-      location: "San Denever, USA",
-      phone: "+91 365 874 6310",
-      whatsapp: "https://wa.me/yourwhatsapplink",
-      rating: 4.8,
-      reviews: 46,
-      category: "Wedding",
-      keywords: [
-        { name: "Breakfast Cereals", link: "/keywords/breakfast-cereals/" },
-        { name: "Briyani Rice", link: "/keywords/briyani-rice/" },
-      ],
-      brands: [
-        { name: "Apple", link: "/brands/apple/" },
-        { name: "Samsung", link: "/brands/samsung/" },
-        { name: "Sony", link: "/brands/sony/" },
-      ],
-      categories: [
-        { name: "Party", link: "/categories/party/" },
-        { name: "Corporate", link: "/categories/corporate/" },
-      ],
-    },
-  
-  ],
-};
+const ItemCard = ({ categorySlug }) => {
+  const [itemData, setItemData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const ItemCard = () => (
-  <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-    {dummyData.items.map((item) => (
-      <div className="Goodup-grid-wrap" key={item.id}>
+  useEffect(() => {
+    if (categorySlug) {
+      setLoading(true);
+      setError(null);
+
+      fetchItemDetails(categorySlug)
+        .then((data) => {
+          setItemData(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError("Failed to fetch data");
+          setLoading(false);
+        });
+    } else {
+      setError("No category slug provided");
+      setLoading(false);
+    }
+  }, [categorySlug]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!itemData) return <div>No items found for this category.</div>;
+
+  return (
+    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+      <div className="Goodup-grid-wrap">
         <div className="Goodup-grid-upper">
           <div className="Goodup-pos ab-left">
-            <div className="Goodup-status open me-2">Distributer</div>
+            <div className="Goodup-status open me-2">Distributor</div>
             <div className="Goodup-featured-tag">Verified</div>
           </div>
           <div className="Goodup-grid-thumb">
@@ -45,19 +43,31 @@ const ItemCard = () => (
               href="listing-detail-2.html"
               className="d-block text-center m-auto"
             >
-              <img src={item.imageUrl} className="img-fluid" alt={item.title} />
+              <img
+                src={itemData.imageUrl || "https://via.placeholder.com/500x500"}
+                className="img-fluid"
+                alt={itemData.title || "Item"}
+              />
             </a>
           </div>
           <div className="Goodup-rating overlay">
-            <div className="Goodup-pr-average high">{item.rating}</div>
+            <div className="Goodup-pr-average high">
+              {itemData.rating && Number.isFinite(itemData.rating)
+                ? itemData.rating
+                : "N/A"}
+            </div>
             <div className="Goodup-aldeio">
               <div className="Goodup-rates">
-                {[...Array(Math.round(item.rating))].map((_, index) => (
-                  <i className="fas fa-star" key={index}></i>
-                ))}
+                {itemData.rating && Number.isFinite(itemData.rating) ? (
+                  [...Array(Math.round(itemData.rating))].map((_, index) => (
+                    <i className="fas fa-star" key={index}></i>
+                  ))
+                ) : (
+                  <span>No rating available</span>
+                )}
               </div>
               <div className="Goodup-all-review">
-                <span>{item.reviews} Reviews</span>
+                <span>{itemData.reviews || "No reviews"}</span>
               </div>
             </div>
           </div>
@@ -74,31 +84,35 @@ const ItemCard = () => (
               </a>
             </div>
             <div className="Goodup-cates">
-              <a href="search.html">{item.category}</a>
+              <a href="search.html">{itemData.name || "No category"}</a>
             </div>
             <h4 className="mb-0 ft-medium medium">
               <a href="listing-detail-2.html" className="text-dark fs-md">
-                {item.title}
+                {itemData.title || "No title available"}
               </a>
             </h4>
             <div className="Goodup-middle-caption mt-3">
               <div className="Goodup-location">
                 <i className="fas fa-map-marker-alt me-1 theme-cl"></i>
-                {item.location}
+                {itemData.location || "Location not available"}
               </div>
               <div className="Goodup-call mt-2">
                 <i className="fas fa-phone-alt"></i>
-                {item.phone}
+                {itemData.phone || "Phone not available"}
               </div>
               <div className="Goodup-whatsapp mt-2">
                 <i className="fab fa-whatsapp me-1"></i>
-                <a
-                  href={item.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Chat on WhatsApp
-                </a>
+                {itemData.whatsapp ? (
+                  <a
+                    href={itemData.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                ) : (
+                  "WhatsApp not available"
+                )}
               </div>
             </div>
           </div>
@@ -138,13 +152,21 @@ const ItemCard = () => (
               </div>
             </div>
           </div>
+
           {/* Dropdowns for Keywords, Brands, and Categories */}
           <div className="col">
             <div className="card">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h4 className="panel-title mb-0">
                   <span>Keywords: </span>
-                  <a href={item.keywords[0].link}>{item.keywords[0].name}</a>
+                  <a
+                    href={
+                      (itemData.keywords && itemData.keywords[0]?.link) || "#"
+                    }
+                  >
+                    {(itemData.keywords && itemData.keywords[0]?.name) ||
+                      "No keywords"}
+                  </a>
                 </h4>
                 <span className="toggleIcon">
                   <a
@@ -159,15 +181,21 @@ const ItemCard = () => (
               </div>
               <div id="keywords_1" className="collapse">
                 <div className="card-body">
-                  {item.keywords.map((keyword, index) => (
-                    <a
-                      key={index}
-                      href={keyword.link}
-                      className="badge badge-hover"
-                    >
-                      {keyword.name}
-                    </a>
-                  ))}
+                  {itemData.keywords &&
+                  Array.isArray(itemData.keywords) &&
+                  itemData.keywords.length > 0 ? (
+                    itemData.keywords.map((keyword, index) => (
+                      <a
+                        key={index}
+                        href={keyword.link}
+                        className="badge badge-hover"
+                      >
+                        {keyword.name}
+                      </a>
+                    ))
+                  ) : (
+                    <span>No keywords available</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -178,7 +206,12 @@ const ItemCard = () => (
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h4 className="panel-title mb-0">
                   <span>Brands: </span>
-                  <a href={item.brands[0].link}>{item.brands[0].name}</a>
+                  <a
+                    href={(itemData.brands && itemData.brands[0]?.link) || "#"}
+                  >
+                    {(itemData.brands && itemData.brands[0]?.name) ||
+                      "No brands"}
+                  </a>
                 </h4>
                 <span className="toggleIcon">
                   <a
@@ -193,15 +226,21 @@ const ItemCard = () => (
               </div>
               <div id="brands_1" className="collapse">
                 <div className="card-body">
-                  {item.brands.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.link}
-                      className="badge badge-hover"
-                    >
-                      {brand.name}
-                    </a>
-                  ))}
+                  {itemData.brands &&
+                  Array.isArray(itemData.brands) &&
+                  itemData.brands.length > 0 ? (
+                    itemData.brands.map((brand, index) => (
+                      <a
+                        key={index}
+                        href={brand.link}
+                        className="badge badge-hover"
+                      >
+                        {brand.name}
+                      </a>
+                    ))
+                  ) : (
+                    <span>No brands available</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -211,9 +250,15 @@ const ItemCard = () => (
             <div className="card">
               <div className="card-header d-flex justify-content-between align-items-center">
                 <h4 className="panel-title mb-0">
-                  <span>Category: </span>
-                  <a href={item.categories[0].link}>
-                    {item.categories[0].name}
+                  <span>Categories: </span>
+                  <a
+                    href={
+                      (itemData.categories && itemData.categories[0]?.link) ||
+                      "#"
+                    }
+                  >
+                    {(itemData.categories && itemData.categories[0]?.name) ||
+                      "No categories"}
                   </a>
                 </h4>
                 <span className="toggleIcon">
@@ -229,19 +274,29 @@ const ItemCard = () => (
               </div>
               <div id="categories_1" className="collapse">
                 <div className="card-body">
-                  {item.categories.map((category, index) => (
-                    <a key={index} href={category.link} className="badge">
-                      {category.name}
-                    </a>
-                  ))}
+                  {itemData.categories &&
+                  Array.isArray(itemData.categories) &&
+                  itemData.categories.length > 0 ? (
+                    itemData.categories.map((category, index) => (
+                      <a
+                        key={index}
+                        href={category.link}
+                        className="badge badge-hover"
+                      >
+                        {category.name}
+                      </a>
+                    ))
+                  ) : (
+                    <span>No categories available</span>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    ))}
-  </div>
-);
+    </div>
+  );
+};
 
 export default ItemCard;

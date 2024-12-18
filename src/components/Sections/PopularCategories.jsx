@@ -1,83 +1,36 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { fetchCategories } from "../../Api/categoryApi";
+import "./PopularCategories.css";
 
 const PopularCategories = () => {
-  const categories = [
-    {
-      cities: "07 Cities",
-      icon: "fas fa-stethoscope",
-      title: "Dentists",
-      listings: 607,
-    },
-    {
-      cities: "17 Cities",
-      icon: "fas fa-building",
-      title: "IT & Banking",
-      listings: 76,
-    },
-    {
-      cities: "19 Cities",
-      icon: "fas fa-shopping-basket",
-      title: "Shoppings",
-      listings: 112,
-    },
-    {
-      cities: "32 Cities",
-      icon: "fas fa-screwdriver",
-      title: "Home Services",
-      listings: 322,
-    },
-    {
-      cities: "27 Cities",
-      icon: "fas fa-basketball-ball",
-      title: "Active Life",
-      listings: 161,
-    },
-    {
-      cities: "26 Cities",
-      icon: "fas fa-utensils",
-      title: "Restaurants",
-      listings: 172,
-    },
-    {
-      cities: "10 Cities",
-      icon: "fas fa-book-open",
-      title: "Education",
-      listings: 144,
-    },
-    {
-      cities: "24 Cities",
-      icon: "fas fa-house-damage",
-      title: "Real Estate",
-      listings: 210,
-    },
-    {
-      cities: "18 Cities",
-      icon: "fas fa-wine-glass",
-      title: "Event Planning",
-      listings: 241,
-    },
-    {
-      cities: "06 Cities",
-      icon: "fas fa-car-alt",
-      title: "Automotive",
-      listings: 52,
-    },
-    {
-      cities: "08 Cities",
-      icon: "fas fa-pencil-ruler",
-      title: "Art & Design",
-      listings: 97,
-    },
-    {
-      cities: "05 Cities",
-      icon: "fas fa-plane",
-      title: "Hotel & Travel",
-      listings: 42,
-    },
-  ];
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const response = await fetchCategories(); // Fetch categories from the API
+        setCategories(response); // Set the categories to the state
+      } catch (error) {
+        setError("Error fetching categories"); // Handle errors if any
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false); // Set loading to false once the request is done
+      }
+    };
+    getCategories();
+  }, []);
+
+  if (loading) {
+    return <p>Loading categories...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>; // Show error message if there's an issue with fetching
+  }
 
   return (
     <section className="space min gray">
@@ -99,17 +52,23 @@ const PopularCategories = () => {
               className="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6"
             >
               <div className="cats-wrap text-center">
-                <Link to="/listing-search-v1" className="Goodup-catg-wrap">
-                  <div className="Goodup-catg-city">{category.cities}</div>
+                <Link
+                  to={`/category/${category.slug}`}
+                  className="Goodup-catg-wrap"
+                >
                   <div className="Goodup-catg-icon">
-                    <i className={category.icon}></i>
+                    <img
+                      src={category.image}
+                      alt={category.title}
+                      className="category-image"
+                    />
                   </div>
                   <div className="Goodup-catg-caption">
                     <h4 className="fs-md mb-0 ft-medium m-catrio">
-                      {category.title}
+                      {category.name}
                     </h4>
                     <span className="text-muted">
-                      {category.listings} Listings
+                      {/* {category.listings} Listings */}
                     </span>
                   </div>
                 </Link>
@@ -117,7 +76,9 @@ const PopularCategories = () => {
             </div>
           ))}
         </div>
-        <div className="text-center ">
+
+        {/* "View More" Button */}
+        <div className="text-center">
           <Link to="/all-categories">
             <Button variant="danger" className="rounded">
               View More

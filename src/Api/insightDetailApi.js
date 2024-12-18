@@ -1,4 +1,3 @@
-// insightDetailApi.js
 export const fetchInsightBySlug = async (slug) => {
   const response = await fetch(`http://127.0.0.1:8000/api/insights/${slug}/`);
   if (!response.ok) {
@@ -6,3 +5,4 @@ export const fetchInsightBySlug = async (slug) => {
   }
   return await response.json();
 };
+
