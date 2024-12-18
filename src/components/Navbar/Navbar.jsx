@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, userProfile, handleLogout }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <header className="header header-light dark-text">
       <div className="container">
@@ -16,30 +23,6 @@ const Navbar = () => {
               />
             </NavLink>
             <div className="nav-toggle"></div>
-            <div className="mobile_nav">
-              <ul>
-                <li>
-                  <a
-                    href="#"
-                    data-bs-toggle="modal"
-                    data-bs-target="#login"
-                    className="theme-cl fs-lg"
-                  >
-                    <i className="lni lni-user"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="add-listing.html"
-                    className="crs_yuo12 w-auto text-white theme-bg"
-                  >
-                    <span className="embos_45">
-                      <i className="fas fa-plus me-2"></i>Add Listing
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
           <div className="nav-menus-wrapper">
             <ul className="nav-menu">
@@ -70,7 +53,6 @@ const Navbar = () => {
                       FAQ
                     </NavLink>
                   </li>
-
                   <li>
                     <NavLink
                       to="/terms-and-conditions"
@@ -115,16 +97,51 @@ const Navbar = () => {
               </li>
             </ul>
             <ul className="nav-menu nav-menu-social align-to-right">
-              <li>
-                <a
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#login"
-                  className="ft-bold"
-                >
-                  <i className="fas fa-sign-in-alt me-1 theme-cl"></i>Sign In
-                </a>
-              </li>
+              {isLoggedIn ? (
+                <li className="profile-menu">
+                  <div className="profile-icon" onClick={toggleDropdown}>
+                    <img
+                      src={
+                        userProfile.profileImage ||
+                        `https://api.dicebear.com/6.x/initials/svg?seed=${userProfile.name}&radius=50`
+                      }
+                      alt="Profile"
+                      className="profile-img"
+                    />
+                  </div>
+
+                  {dropdownOpen && (
+                    <ul className="profile-dropdown" style={{ padding:"10px" }}>
+                      <li>
+                        <NavLink to="/profile">
+                          <i className="fas fa-user-circle me-2"></i> Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/settings">
+                          <i className="fas fa-cog me-2"></i> Settings
+                        </NavLink>
+                      </li>
+                      <li>
+                        <a href="#" onClick={handleLogout}>
+                          <i className="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              ) : (
+                <li>
+                  <a
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#login"
+                    className="ft-bold"
+                  >
+                    <i className="fas fa-sign-in-alt me-1 theme-cl"></i>Sign In
+                  </a>
+                </li>
+              )}
               <li className="add-listing">
                 <a href="/add-listing">
                   <i className="fas fa-plus me-2"></i>Add Listing
