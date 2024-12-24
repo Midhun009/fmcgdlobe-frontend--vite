@@ -1,33 +1,30 @@
 import React, { useState } from "react";
+import { loginUser } from "../../Api/loginUser"; 
 import "./Modal.css";
 
-const LoginModal = ({ setIsLoggedIn }) => {
+const LoginModal = ({ setIsLoggedIn, setUserProfile }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const dummyUser = {
-    username: "user",
-    password: "123",
-    profileImage: "/assets/img/user-profile.png",
-  };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (username === dummyUser.username && password === dummyUser.password) {
-      setIsLoggedIn({
-        name: dummyUser.username,
-        image: dummyUser.profileImage,
-      });
+    try {
+      const response = await loginUser(username, password); // API call
+      const { token, profileData } = response.data; // Assume the API returns a token and profile data
 
-      setErrorMessage("");
-      const modalElement = document.getElementById("login");
-      if (modalElement) {
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
-      }
-    } else {
+      // Store the token and profile in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("userProfile", JSON.stringify(profileData));
+
+      // Update the state
+      setIsLoggedIn(true);
+      setUserProfile(profileData);
+
+      // Close modal
+      document.querySelector('[data-bs-dismiss="modal"]').click();
+    } catch (error) {
       setErrorMessage("Invalid username or password.");
     }
   };
@@ -37,11 +34,12 @@ const LoginModal = ({ setIsLoggedIn }) => {
       className="modal fade"
       id="login"
       tabIndex="-1"
+      role="dialog"
       aria-labelledby="loginmodal"
       aria-hidden="true"
     >
       <div className="modal-dialog login-pop-form" role="document">
-        <div className="modal-content">
+        <div className="modal-content" id="loginmodal">
           <div className="modal-headers">
             <button
               type="button"
@@ -52,11 +50,13 @@ const LoginModal = ({ setIsLoggedIn }) => {
               <span className="ti-close"></span>
             </button>
           </div>
+
           <div className="modal-body p-5">
             <div className="text-center mb-4">
               <h4 className="m-0 ft-medium">Login Your Account</h4>
             </div>
-            <form onSubmit={handleLogin}>
+
+            <form className="submit-form" onSubmit={handleLogin}>
               <div className="form-group">
                 <label className="mb-1">User Name</label>
                 <input
@@ -79,9 +79,11 @@ const LoginModal = ({ setIsLoggedIn }) => {
                   required
                 />
               </div>
+
               {errorMessage && (
                 <div className="alert alert-danger">{errorMessage}</div>
               )}
+
               <div className="form-group">
                 <button
                   type="submit"
